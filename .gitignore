@@ -14,10 +14,10 @@ TestResults/
 *.snupkg
 publish/
 
-# Secrets & config overrides
-appsettings.*.json
-!appsettings.json
-!appsettings.Development.json
+# Secrets & config overrides — appsettings.json is a placeholder template (safe to commit)
+# Real secrets go in appsettings.Local.json which is gitignored by the wildcard below
+appsettings.Local.json
+appsettings.*.Local.json
 
 # ─── Angular / Node ──────────────────────────────────────────────────────────
 node_modules/

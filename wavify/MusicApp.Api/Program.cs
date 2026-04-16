@@ -2,6 +2,9 @@ using MusicApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load local secrets (gitignored) — overrides appsettings.json placeholders
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+
 // Add CORS for Angular dev server
 builder.Services.AddCors(options =>
 {
