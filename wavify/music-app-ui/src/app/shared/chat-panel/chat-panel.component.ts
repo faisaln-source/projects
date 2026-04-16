@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ChatService, ChatMessage, ChatAction } from '../../core/services/chat.service';
 import { PlayerService } from '../../core/services/player.service';
 import { ApiService } from '../../core/services/api.service';
+import { WakeWordService } from '../../core/services/wake-word.service';
 import { UnifiedTrack } from '../../core/models/track.model';
 import { Subscription } from 'rxjs';
 
@@ -20,6 +21,22 @@ interface DisplayMessage {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
+    <!-- Wake word toggle button -->
+    <button
+      *ngIf="wakeWord.isSupported"
+      class="wake-fab"
+      id="btn-wake-word"
+      (click)="wakeWord.toggle()"
+      [class.armed]="wakeWord.isActive()"
+      [title]="wakeWord.isActive() ? 'Wake word ON — say Hey Wavify' : 'Enable Hey Wavify wake word'"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+        <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/>
+      </svg>
+      <span class="wake-ring" *ngIf="wakeWord.isActive()"></span>
+    </button>
+
     <!-- Floating chat button -->
     <button class="chat-fab" id="btn-open-chat" (click)="togglePanel()" [class.active]="isOpen()" aria-label="Open AI chat">
       <span class="fab-icon" *ngIf="!isOpen()">
@@ -167,6 +184,31 @@ interface DisplayMessage {
     </div>
   `,
   styles: [`
+    /* ─── Wake Word FAB ─── */
+    .wake-fab {
+      position: fixed;
+      bottom: calc(var(--player-height) + 78px);
+      right: 20px;
+      width: 36px; height: 36px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-tertiary);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 301;
+      transition: all var(--transition-fast);
+      position: fixed;
+    }
+    .wake-fab:hover { background: rgba(167,139,250,0.15); color: var(--accent-primary); border-color: rgba(167,139,250,0.3); }
+    .wake-fab.armed { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #ef4444; }
+    .wake-fab svg { width: 16px; height: 16px; }
+    .wake-ring {
+      position: absolute; inset: -5px; border-radius: 17px;
+      border: 2px solid #ef4444;
+      animation: wake-pulse 2s ease-in-out infinite;
+    }
+    @keyframes wake-pulse { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 0.2; transform: scale(1.1); } }
+
     /* ─── FAB ─── */
     .chat-fab {
       position: fixed;
@@ -350,23 +392,33 @@ export class ChatPanelComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private shouldScroll = false;
   private trackSub!: Subscription;
+  private wakeSub!: Subscription;
   private recognition: any = null;
 
   constructor(
     private chatService: ChatService,
     private playerService: PlayerService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    public wakeWord: WakeWordService
   ) {}
 
   ngOnInit() {
     this.trackSub = this.playerService.currentTrack$.subscribe(t => {
       this.currentTrackSnapshot = t;
     });
+
+    // Auto-open + listen when wake word is detected
+    this.wakeSub = this.wakeWord.wakeDetected$.subscribe(() => {
+      if (!this.isOpen()) this.isOpen.set(true);
+      setTimeout(() => this.startVoiceInput(), 500);
+    });
   }
 
   ngOnDestroy() {
     this.trackSub?.unsubscribe();
+    this.wakeSub?.unsubscribe();
     this.recognition?.abort();
+    this.wakeWord.stop();
   }
 
   currentTrack() { return this.currentTrackSnapshot; }

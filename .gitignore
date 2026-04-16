@@ -33,6 +33,10 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# ─── Local dev tools ─────────────────────────────────────────────────────────
+start-tunnel.ps1
+cloudflared-*.log
+
 # ─── OS ──────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
