@@ -1,4 +1,4 @@
-﻿using MusicApp.Api.Services;
+using MusicApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +25,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<SpotifyService>();
 builder.Services.AddHttpClient<YouTubeService>();
+builder.Services.AddHttpClient<ChatService>();
 
 var app = builder.Build();
 

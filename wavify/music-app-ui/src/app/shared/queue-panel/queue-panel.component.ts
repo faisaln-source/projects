@@ -88,19 +88,7 @@ import { Subscription } from 'rxjs';
   styles: [`
     /* ── Toggle Button ── */
     .queue-toggle {
-      position: fixed;
-      bottom: calc(var(--player-height) + 12px);
-      right: 20px;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border-medium);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition-base);
-      box-shadow: var(--shadow-md);
-      z-index: 20;
+      display: none;
     }
     .queue-toggle:hover { color: var(--text-primary); transform: scale(1.08); border-color: var(--accent-primary); }
     .queue-toggle.active { background: var(--accent-gradient); color: white; border-color: transparent; box-shadow: 0 4px 20px rgba(167,139,250,0.4); }
@@ -124,9 +112,9 @@ import { Subscription } from 'rxjs';
     /* ── Queue Panel ── */
     .queue-content {
       position: fixed;
-      bottom: calc(var(--player-height) + 64px);
-      right: 16px;
-      width: 360px; max-height: 520px;
+      bottom: calc(var(--player-height) + 16px);
+      left: calc(var(--sidebar-width) + 12px);
+      width: 340px; max-height: 520px;
       background: var(--bg-secondary);
       border: 1px solid var(--border-medium);
       border-radius: var(--radius-lg);
@@ -235,12 +223,6 @@ import { Subscription } from 'rxjs';
     /* ── Mobile ── */
     @media (max-width: 768px) {
       .queue-backdrop { display: block; }
-
-      .queue-toggle {
-        bottom: calc(56px + var(--player-height) + 10px);
-        right: 14px;
-        width: 40px; height: 40px;
-      }
 
       .queue-content {
         position: fixed;
