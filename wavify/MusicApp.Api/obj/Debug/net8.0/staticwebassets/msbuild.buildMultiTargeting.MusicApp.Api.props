@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\MusicApp.Api.props" />
-</Project>
