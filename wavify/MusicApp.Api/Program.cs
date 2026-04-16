@@ -1,4 +1,4 @@
-using MusicApp.Api.Services;
+﻿using MusicApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                     "http://localhost:4200",
                     "https://localhost:4200",
-                    "https://desirae-pretorial-unplentifully.ngrok-free.dev"
+                    "https://carry-surgeon-reproduced-announcement.trycloudflare.com"
                 )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -32,3 +32,4 @@ app.UseCors();
 app.MapControllers();
 
 app.Run();
+
