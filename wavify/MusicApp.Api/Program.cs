@@ -1,8 +1,8 @@
-using MusicApp.Api.Services;
+﻿using MusicApp.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load local secrets (gitignored) — overrides appsettings.json placeholders
+// Load local secrets (gitignored) â€” overrides appsettings.json placeholders
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
 // Add CORS for Angular dev server
@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                     "http://localhost:4200",
                     "https://localhost:4200",
-                    "https://carry-surgeon-reproduced-announcement.trycloudflare.com"
+                    "https://rocket-noble-gotten-walk.trycloudflare.com"
                 )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -36,4 +36,5 @@ app.UseCors();
 app.MapControllers();
 
 app.Run();
+
 

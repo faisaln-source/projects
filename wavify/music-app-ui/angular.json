@@ -85,7 +85,7 @@
           "options": {
             "proxyConfig": "proxy.conf.json",
             "allowedHosts": [
-              "carry-surgeon-reproduced-announcement.trycloudflare.com"
+              "rocket-noble-gotten-walk.trycloudflare.com"
             ]
           },
           "configurations": {
@@ -125,4 +125,5 @@
     }
   }
 }
+
 
