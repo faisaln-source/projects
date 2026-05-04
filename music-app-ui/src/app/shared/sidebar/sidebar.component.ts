@@ -71,6 +71,24 @@ import { PlayerService } from '../../core/services/player.service';
           </div>
         </div>
       </nav>
+
+      <!-- Queue shortcut — only shown when a playlist is loaded -->
+      <div class="queue-shortcut"
+           *ngIf="(playerService.queue$ | async)?.length"
+           (click)="openQueue()"
+           id="sidebar-queue-btn">
+        <div class="queue-shortcut-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 6h16M4 10h16M4 14h10M4 18h10"/>
+            <circle cx="18" cy="16" r="3"/>
+            <path d="M21 16v-5l-3 1.5"/>
+          </svg>
+        </div>
+        <div class="queue-shortcut-info">
+          <span class="queue-shortcut-label">Queue</span>
+          <span class="queue-shortcut-count">{{ (playerService.queue$ | async)?.length }} tracks</span>
+        </div>
+      </div>
     </aside>
   `,
   styles: [`
@@ -105,6 +123,14 @@ import { PlayerService } from '../../core/services/player.service';
     .disconnect-btn { margin-top: 4px; font-size: 10px; color: var(--text-tertiary); background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; }
     .disconnect-btn:hover { color: #f87171; }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    /* Queue shortcut */
+    .queue-shortcut { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-md); background: var(--bg-card); border: 1px solid var(--border-subtle); cursor: pointer; transition: all var(--transition-fast); margin-top: auto; }
+    .queue-shortcut:hover { background: var(--bg-card-hover); border-color: rgba(167,139,250,0.3); }
+    .queue-shortcut-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(167,139,250,0.15); color: var(--accent-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .queue-shortcut-icon svg { width: 20px; height: 20px; }
+    .queue-shortcut-info { display: flex; flex-direction: column; gap: 3px; }
+    .queue-shortcut-label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .queue-shortcut-count { font-size: 11px; color: var(--accent-primary); font-weight: 500; }
   `]
 })
 export class SidebarComponent {
@@ -119,5 +145,9 @@ export class SidebarComponent {
 
   disconnectSpotify() {
     this.spotifyAuth.logout();
+  }
+
+  openQueue() {
+    this.playerService.requestQueueOpen();
   }
 }
