@@ -85,7 +85,7 @@
           "options": {
             "proxyConfig": "proxy.conf.json",
             "allowedHosts": [
-              "rocket-noble-gotten-walk.trycloudflare.com"
+              "accepted-sprint-contributor-eur.trycloudflare.com"
             ]
           },
           "configurations": {
@@ -125,5 +125,6 @@
     }
   }
 }
+
 
 

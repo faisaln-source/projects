@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                     "http://localhost:4200",
                     "https://localhost:4200",
-                    "https://rocket-noble-gotten-walk.trycloudflare.com"
+                    "https://accepted-sprint-contributor-eur.trycloudflare.com"
                 )
                 .AllowAnyMethod()
                 .AllowAnyHeader()
@@ -36,5 +36,6 @@ app.UseCors();
 app.MapControllers();
 
 app.Run();
+
 
 
