@@ -85,7 +85,7 @@
           "options": {
             "proxyConfig": "proxy.conf.json",
             "allowedHosts": [
-              "carry-surgeon-reproduced-announcement.trycloudflare.com"
+              "accepted-sprint-contributor-eur.trycloudflare.com"
             ]
           },
           "configurations": {
@@ -125,4 +125,6 @@
     }
   }
 }
+
+
 
